@@ -6,6 +6,7 @@
 			<Timers style="margin-top: 50px" />
 			<SettingsIcon style="position: absolute; bottom: 40px; right: 20px;"/>
 		</div>
+    	<router-view />
 	</div>
 </template>
 

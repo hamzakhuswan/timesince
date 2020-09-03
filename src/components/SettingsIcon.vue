@@ -1,9 +1,9 @@
 <template>
     <div class="settings-icon">
         <ul :class="{show}">
-            <li>Timers</li>
-            <li>Theme</li>
-            <li>Prefernce</li>
+            <li><router-link to="/timers">Timers</router-link></li>
+            <li><router-link to="/theme">Theme</router-link></li>
+            <li><router-link to="/prefernce">Prefernce</router-link></li>
         </ul>
         <img src="../assets/settings.svg" @click="show = !show">
     </div>
@@ -14,7 +14,7 @@ export default {
     name: "SettingsIcon",
     data() {
         return {
-            show: true
+            show: false
         }
     }
 }
@@ -34,13 +34,18 @@ export default {
         padding: 0;
         position: absolute;
         right: 0;
-        bottom: calc(-100% + 64px);
+        bottom: calc(-100% + 84px);
         visibility:hidden;
         opacity:0;
         transition:visibility 0.6s ease,opacity 0.6s ease;
+        margin: 0;
         li{ 
             list-style: none;
-            color: #000;
+            * {
+                color: #333;
+                stroke-width: 5px;
+                text-decoration: none;
+            }
             cursor: pointer;
             &:hover {
                 text-decoration: underline;
