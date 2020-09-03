@@ -40,11 +40,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .timers {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-	height: calc(100vh - 300px + (20px * 2));
+    grid-template-columns: repeat(auto-fill, auto);
+	height: 300px + (20px * 2);  // Backup for fit-content
+	height: fit-content;
+	max-height: 300px + (20px * 2);
 	max-height: 1500px;
     gap: 20px;
 	overflow-y: auto;
@@ -53,6 +56,13 @@ export default {
 @media screen and (max-width: 768px) {
 	.timers {
 		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	}
+}
+@media (min-height: 900px) {
+	.timers {
+		height: 600px + (20px * 2);
+		height: fit-content;
+		max-height: 600px + (20px * 2);
 	}
 }
 </style>

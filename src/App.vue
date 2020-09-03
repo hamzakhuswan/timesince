@@ -28,6 +28,10 @@ export default {
 	src: url("./assets/fonts/Manrope-Regular.ttf") format("truetype");
 }
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	overflow: hidden;
 	font-family: "Manrope", sans-serif;

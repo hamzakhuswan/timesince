@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .timer {
 	color: #f6f8fb;
 	font-size: 24px;
@@ -65,9 +65,13 @@ export default {
 	background: rgba(196, 196, 196, 0.2);
 	padding: 30px 20px;
 	height: 150px;
-}
-
-.timer h2 {
-	margin: 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	h2 {
+		margin: 0px;
+	}
 }
 </style>

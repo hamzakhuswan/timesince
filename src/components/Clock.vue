@@ -65,7 +65,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .font-lg {
 	font-size: 84px;
 }
