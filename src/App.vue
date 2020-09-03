@@ -4,6 +4,7 @@
 		<div class="container">
 			<Clock />
 			<Timers style="margin-top: 50px" />
+			<SettingsIcon style="position: absolute; bottom: 40px; right: 20px;"/>
 		</div>
 	</div>
 </template>
@@ -11,13 +12,15 @@
 <script>
 import GradientBackground from "./components/GradientBackground";
 import Clock from "./components/Clock";
-import Timers from "./components/timers/Timers"
+import Timers from "./components/timers/Timers";
+import SettingsIcon from "./components/SettingsIcon"
 export default {
 	name: "App",
 	components: {
 		GradientBackground,
 		Clock,
-		Timers
+		Timers,
+		SettingsIcon
 	},
 };
 </script>
@@ -41,8 +44,10 @@ body {
 .container {
 	width: 100%;
 	max-width: 1080px;
+	height: 100vh;
 	margin: 0 auto;
 	position: relative;
 	z-index: 4;
+
 }
 </style>

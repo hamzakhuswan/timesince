@@ -44,11 +44,9 @@ export default {
 .timers {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    grid-template-columns: repeat(auto-fill, auto);
 	height: 300px + (20px * 2);  // Backup for fit-content
 	height: fit-content;
 	max-height: 300px + (20px * 2);
-	max-height: 1500px;
     gap: 20px;
 	overflow-y: auto;
 }
