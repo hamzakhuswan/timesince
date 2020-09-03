@@ -1,9 +1,9 @@
 <template>
     <div class="settings-icon">
-        <ul :class="{show}">
-            <li><router-link to="/timers">Timers</router-link></li>
-            <li><router-link to="/theme">Theme</router-link></li>
-            <li><router-link to="/prefernce">Prefernce</router-link></li>
+        <ul :class="{show: show}">
+            <li @click="show = false"><router-link to="/timers">Timers</router-link></li>
+            <li @click="show = false"><router-link to="/theme">Theme</router-link></li>
+            <li @click="show = false"><router-link to="/preference">Prefernce</router-link></li>
         </ul>
         <img src="../assets/settings.svg" @click="show = !show">
     </div>

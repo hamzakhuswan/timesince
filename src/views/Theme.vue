@@ -1,5 +1,17 @@
 <template>
   <div class="theme-settings">
-    <h1>This is the theme settings</h1>
+    <Settings>
+      <h1>Here you will be change the theme</h1>
+    </Settings>
   </div>
 </template>
+
+<script>
+import Settings from "../components/Settings"
+export default {
+  name: "Theme",
+  components: {
+    Settings
+  }
+}
+</script>

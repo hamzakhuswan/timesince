@@ -6,7 +6,7 @@
 			<Timers style="margin-top: 50px" />
 			<SettingsIcon style="position: absolute; bottom: 40px; right: 20px;"/>
 		</div>
-    	<router-view />
+		<router-view />
 	</div>
 </template>
 
@@ -15,13 +15,15 @@ import GradientBackground from "./components/GradientBackground";
 import Clock from "./components/Clock";
 import Timers from "./components/timers/Timers";
 import SettingsIcon from "./components/SettingsIcon"
+import Settings from "./components/Settings"
 export default {
 	name: "App",
 	components: {
 		GradientBackground,
 		Clock,
 		Timers,
-		SettingsIcon
+		SettingsIcon,
+		Settings
 	},
 };
 </script>
@@ -39,7 +41,8 @@ export default {
 body {
 	overflow: hidden;
 	font-family: "Manrope", sans-serif;
-
+	width: 100vw;
+	height: 100vh;
 }
 
 .container {

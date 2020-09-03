@@ -1,5 +1,17 @@
 <template>
   <div class="preference">
-    <h1>This is the preference page</h1>
+    <Settings>
+      <h1>Here you will find the rest the settings</h1>
+    </Settings>
   </div>
 </template>
+
+<script>
+import Settings from "../components/Settings"
+export default {
+  name: "Preference",
+  components: {
+    Settings
+  }
+}
+</script>
