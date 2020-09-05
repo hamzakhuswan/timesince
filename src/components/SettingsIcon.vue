@@ -1,5 +1,5 @@
 <template>
-    <div class="settings-icon">
+    <div class="settings-icon" v-on-clickaway="away">
         <ul :class="{show: show}">
             <li @click="show = false"><router-link to="/timers">Timers</router-link></li>
             <li @click="show = false"><router-link to="/theme">Theme</router-link></li>
@@ -10,11 +10,19 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 export default {
+    mixins: [ clickaway ],
     name: "SettingsIcon",
     data() {
         return {
             show: false
+        }
+    },
+    methods: {
+        away() {
+            if (this.show)
+                this.show = false;
         }
     }
 }

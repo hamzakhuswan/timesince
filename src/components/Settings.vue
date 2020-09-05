@@ -1,6 +1,6 @@
 <template>
   <div class="settings">
-    <div class="holder">
+    <div class="holder" v-on-clickaway="away">
       <div class="nav-section">
           <!-- <svg width=50px height=50px viewBox="-25 -25 90 90">
               <polyline points="0,25 25,50, 50,25 25,0" fill="#0033FF99" />
@@ -12,18 +12,25 @@
       <div class="settings-content">
         <slot></slot>
       </div>
-      <router-link class="exit" to="/">
+      <!-- <router-link class="exit" to="/">
         <svg height="15" width="15">
           <circle cx="7.5" cy="7.5" r="7.5"  fill="red" />
         </svg>
-      </router-link>
+      </router-link> -->
     </div>
   </div>
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 export default {
+  mixins: [ clickaway ],
   name: "settings",
+  methods: {
+    away() {
+      this.$router.push("/");
+    }
+  }
 }
 </script>
 
