@@ -2,9 +2,9 @@
   <div class="settings">
     <div class="holder" v-on-clickaway="away">
       <div class="nav-section">
-          <!-- <svg width=50px height=50px viewBox="-25 -25 90 90">
-              <polyline points="0,25 25,50, 50,25 25,0" fill="#0033FF99" />
-          </svg> -->
+          <router-link to="/"> 
+            <img src="../assets/logo.svg" alt="Back Home">
+          </router-link>
           <router-link :class="{active: $route.name == 'Timers'}" to="/timers">Timers</router-link>
           <router-link :class="{active: $route.name == 'Theme'}" to="/theme">Theme</router-link>
           <router-link :class="{active: $route.name == 'Preference'}" to="/preference">Prefernce</router-link>
@@ -12,11 +12,6 @@
       <div class="settings-content">
         <slot></slot>
       </div>
-      <!-- <router-link class="exit" to="/">
-        <svg height="15" width="15">
-          <circle cx="7.5" cy="7.5" r="7.5"  fill="red" />
-        </svg>
-      </router-link> -->
     </div>
   </div>
 </template>
@@ -54,11 +49,8 @@ export default {
     z-index: 6;
     transform: translate(-50%, -50%);
 
-    width:  calc(100vw - 400px * 2);
-    min-width: 400px;
-
-    height: calc(100vh - 200px * 2);
-    min-height: 500px;
+    width:  80%;
+    height: 80%;
 
     background: #fff;
 
@@ -91,12 +83,32 @@ export default {
       height: 100%;
       text-align: center;
     }
+  }
 
+@media (max-width: 768px) {
+  .holder {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    .nav-section {
+      width: 100%;
+      height: 54px;
+      display: flex;
+      justify-content: left;
+      a {
+        padding: 20px;
+        line-height: normal;
+        &:first-of-type {
+          order: 5;
+          padding: 0;
+        }
+      }
+    }
 
-    .exit {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+    .settings-content {
+      width: 100%;
     }
   }
+
+}
 </style>

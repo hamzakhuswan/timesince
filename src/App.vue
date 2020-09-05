@@ -35,11 +35,12 @@ export default {
 }
 
 * {
-	box-sizing: border-box;
+	box-sizing: border-box !important;
 }
 
 body {
 	overflow: hidden;
+	margin: 0;
 	font-family: "Manrope", sans-serif;
 	width: 100vw;
 	height: 100vh;
@@ -52,6 +53,6 @@ body {
 	margin: 0 auto;
 	position: relative;
 	z-index: 4;
-
+	padding: 5px;
 }
 </style>
