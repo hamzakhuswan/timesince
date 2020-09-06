@@ -1,17 +1,27 @@
 <template>
   <div class="timers-settings">
-    <Settings>
-      <h1>Here you will be able to change and add timers</h1>
+    <Settings myClass="content">
+        <DatePicker/>
     </Settings>
   </div>
 </template>
 
 <script>
 import Settings from "../components/Settings"
+import DatePicker from "../components/DatePicker"
 export default {
   name: "Timers",
   components: {
-    Settings
+    Settings,
+    DatePicker
   }
 }
 </script>
+
+<style lang="scss">
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

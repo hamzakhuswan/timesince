@@ -9,7 +9,7 @@
           <router-link :class="{active: $route.name == 'Theme'}" to="/theme">Theme</router-link>
           <router-link :class="{active: $route.name == 'Preference'}" to="/preference">Prefernce</router-link>
       </div>
-      <div class="settings-content">
+      <div :class="myClass" class="settings-content">
         <slot></slot>
       </div>
     </div>
@@ -21,6 +21,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 export default {
   mixins: [ clickaway ],
   name: "settings",
+  props: ["myClass"],
   methods: {
     away() {
       this.$router.push("/");
@@ -101,6 +102,7 @@ export default {
         &:first-of-type {
           order: 5;
           padding: 0;
+          margin-left: auto;
         }
       }
     }
