@@ -71,7 +71,6 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  transform: scale(1.5);
   filter: blur(15px);
   transition: opacity 2.5s ease;
   z-index: -1;
@@ -85,7 +84,6 @@ export default {
   left: 0;
   right: 0;
   position: absolute;
-  transform: scale(1.5);
   background: rgba(0,0,0,0.5);
   z-index: 1;
 }

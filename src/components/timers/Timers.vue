@@ -3,7 +3,7 @@
 		<Timer
 		v-for="timer in timers"
 		:key="timer.id"
-		:data="{tarDate: timer.date, message: timer.message}"
+		:data="{tarDate: new Date(timer.date), message: timer.message}"
 		/>
 	</div>
 </template>
@@ -14,22 +14,13 @@ export default {
 	name: "Timers",
 	data() {
 		return {
-			timers: [
-				{
-					id: "sk203",
-					message: "Hello World!",
-					date: new Date(2020, 8, 3),
-				},
-				{
-					id: "bd142",
-					message: "Time to 2021",
-					date: new Date(2021, 0, 0),
-				}
-            ],
+			timers: [],
             curTime: new Date()
 		};
     },
     beforeMount() {
+		this.timers = JSON.parse(localStorage.getItem("timers"));
+		
         setInterval(()=> {
             this.curTime = new Date();
         }, 1000);
@@ -40,7 +31,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .timers {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));

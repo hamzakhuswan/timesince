@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .timer {
 	color: #f6f8fb;
 	font-size: 24px;
