@@ -2,17 +2,17 @@
     <div class="date-picker">
         <div>
             <div class="navigation">
-                <div class="btn" @click="decrement"><div class="arrow left"></div></div>
+                <div class="btn" @click="mnth--"><div class="arrow left"></div></div>
                 <div class="date">
                     <input type="text" autocomplete="off" @input="checkDays" :value="days" id="days" placeholder="DD">
                     <input type="text" autocomplete="off" @input="checkMnth" :value="mnth" id="mnth" placeholder="MM">
                     <input type="text" autocomplete="off" @input="checkYear" :value="year" id="year" placeholder="YYYY">
                 </div>
-                <div class="btn" @click="increment()"><div class="arrow right"></div></div>
+                <div class="btn" @click="mnth++"><div class="arrow right"></div></div>
             </div>
         </div>
         <div class="calendar">
-            <div class="day" :class="{active: days == i}" v-for="i in totDays" :key="i" @click="goDate(i)">{{i}}</div>
+            <div class="day" :class="{active: days == i}" v-for="i in totDays" :key="i" @click="days = i">{{i}}</div>
         </div>
     </div>
 </template>
@@ -20,6 +20,9 @@
 <script>
 export default {
     name: "DatePicker",
+    props: ["date"],
+
+    // TODO use computed method
     data() {
         return {
             // Date and time
@@ -31,37 +34,14 @@ export default {
         };
     },
     beforeMount() {
-        this.init(new Date());
+        this.update(new Date());
     },
     methods: {
-        init(date) {
-            if (date) {
-                this.year = date.getFullYear();
-                this.mnth = date.getMonth() + 1;
-                this.days = date.getDate();
-                this.totDays = new Date(this.year, this.mnth, 0).getDate()  
-            } else  {
-                this.totDays = new Date(this.year, this.mnth, 0).getDate()  
-            }
-        },
-        goDate(i) {
-            this.days = i;
-        },
-        increment () {
-            if (this.mnth != 12) this.mnth++;
-            else {
-                this.mnth = 1;
-                this.year++;
-            }
-
-            this.init();
-        },
-        decrement () {
-            if (this.mnth != 1) return this.mnth--;
-
-            this.mnth = 12;
-            this.year--;
-            
+        update(date) {
+            this.year = date.getFullYear();
+            this.mnth = date.getMonth() + 1;
+            this.days = date.getDate();
+            this.totDays = new Date(this.year, this.mnth, 0).getDate()  
         },
         checkDays(e) {
             const value = e.currentTarget.value;
@@ -96,6 +76,21 @@ export default {
 
         },
     },
+    watch: {
+        date() {
+            this.update(new Date(this.date.year, this.date.mnth - 1, this.date.days))
+        },
+        mnth() {
+            if (this.mnth < 1) {
+                this.mnth = 12;
+                this.year--;
+            } else if (this.mnth > 12) {
+                this.mnth = 1;
+                this.year++;   
+            }
+
+        }
+    }
 
 }
 </script>

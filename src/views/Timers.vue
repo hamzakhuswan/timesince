@@ -1,10 +1,10 @@
 <template>
   <div class="timers-settings">
     <Settings myClass="content">
-        <DatePicker  :timerKey="timerKey" :timers="timers"/>
+        <DatePicker :date="date" :timers="timers"/>
         <div class="input">
-          <CircularCLock :timerKey="timerKey" />
-          <TimersFields :timers="timers" @showTimer="distribute"/>
+          <CircularCLock :time="time" />
+          <TimersFields :timers="timers" @showDate="passDate" @showTiming="passTime"/>
         </div>
     </Settings>
   </div>
@@ -20,7 +20,8 @@ export default {
   data() {
     return {
       timers: JSON.parse(localStorage.getItem("timers")),
-      timerKey: {}
+      date: {},
+      time: {}
     }
   },
   components: {
@@ -30,8 +31,17 @@ export default {
     TimersFields
   },
   methods: {
-    distribute(key) {
-      this.timerKey = this.timers.filter(timer => timer.id == key)[0];
+    passTime(time) {
+        // Creating new reactive instance. Explination:
+        // https://vuejs.org/v2/guide/reactivity.html#For-Objects
+        this.time = Object.assign({}, this.time, time);
+    },
+    passDate(date) {
+      this.date = Object.assign({}, this.date, date);
+    },
+    addTimer(t) {
+      const time = t.split(":");
+      this.time = {hurs: time[0], mens: time[1]};
     }
   }
 }

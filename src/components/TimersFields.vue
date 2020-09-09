@@ -1,10 +1,12 @@
 <template>
     <div class="fields">
+        <input type="time" @input="computeTimeInput">
+
         <div class="timers">
-            <button class="timer" v-for="timer in timers" :key="timer.id" @click="showTimer(timer.id)">{{timer.message}}</button>
+            <button class="timer" v-for="timer in timers" :key="timer.id" @click="computePreviousTimers(timer.date)">{{timer.message}}</button>
             <button class="timer">Add New</button>
         </div>
-        <button class="conform">ADD</button>
+        <button class="conform" @click="addTimer()">ADD</button>
     </div>
 </template>
 
@@ -12,13 +14,42 @@
 export default {
     name: "TimersFields",
     props: ["timers"],
-    // beforeMount() {
-    //     console.log(this.timers);
-    // },
+    data() {
+        return {
+            time: {},
+            date: {},
+        };
+    },
     methods: {
-        showTimer(key) {
-            this.$emit("showTimer", key);
-        }
+        computePreviousTimers(d) {
+            const date = new Date(d);
+
+            this.time.hurs = date.getHours();
+            this.time.mens = date.getMinutes();
+            this.showTime();
+
+            this.date.days = date.getDate();
+            this.date.mnth = date.getMonth() + 1;
+            this.date.year = date.getFullYear();
+            this.showDate();
+        },
+        computeTimeInput(e) {
+            const time = e.currentTarget.value.split(":");
+            this.time.hurs = parseInt(time[0]);
+            this.time.mens = parseInt(time[1]);
+
+            this.showTime();
+        },
+        showTime() {
+            this.$emit("showTiming", this.time);
+        },
+        showDate() {
+            this.$emit("showDate", this.date);
+        },
+        // addTimer() {
+        //     console.log(this.time);
+        //     this.$emit("addTimer", this.time);
+        // }
     }
 }
 </script>

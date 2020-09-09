@@ -1,6 +1,6 @@
-F<template>
+<template>
     <div class="clock">
-        <div class="arw hurs-arw" :style="{transform: `translateX(-50%) rotate(calc(${hurs}/60 * 360deg))`}"></div>
+        <div class="arw hurs-arw" :style="{transform: `translateX(-50%) rotate(calc(${hurs}/12 * 360deg))`}"></div>
         <div class="arw mens-arw" :style="{transform: `translateX(-50%) rotate(calc(${mens}/60 * 360deg))`}"></div>
         <div class="arw secs-arw" :style="{transform: `translateX(-50%) rotate(calc(${secs}/60 * 360deg))`}"></div>
         <div class="mdle"></div>
@@ -8,9 +8,15 @@ F<template>
 </template>
 
 <script>
+let interval;
 export default {
     name: "CircularCLock",
-    props: ["timerKey"],
+    props: {
+        time: {
+            type: Object
+        },
+        
+    },
     data() {
         return {
             secs: 0,
@@ -19,34 +25,30 @@ export default {
         };
     },
     methods: {
-        compute() {
-            let date;
-            if (Object.keys(this.timerKey).length != 0) date = new Date(this.timerKey.date);
-            else date = new Date();
+        showTime() {
+            if (Object.keys(this.time).length != 0) {
+                this.hurs = this.time.hurs;
+                this.mens = this.time.mens;
+                this.secs = new Date().getSeconds();
 
-            this.secs = date.getSeconds();
-            this.mens = date.getMinutes();
-            const rawHurs = date.getHours();
-            this.hurs = rawHurs > 12 ? rawHurs - 12: rawHurs;
+                clearInterval(interval);
+            }
+            else {
+                const date = new Date();
+
+                this.secs = date.getSeconds();
+                this.mens = date.getMinutes();
+                const rawHurs = date.getHours();
+                this.hurs = rawHurs > 12 ? rawHurs - 12: rawHurs;
+            }
         }
     },
     beforeMount() {
-      this.compute();
-      setInterval(()=>{
-          this.compute();
-      }, 1000)
+      this.showTime();
+      interval = setInterval(this.showTime, 1000);
     },
     watch: {
-        timerKey: () => {
-                 let date;
-            if (Object.keys(this.timerKey).length != 0) date = new Date(this.timerKey.date);
-            else date = new Date();
-
-            this.secs = date.getSeconds();
-            this.mens = date.getMinutes();
-            const rawHurs = date.getHours();
-            this.hurs = rawHurs > 12 ? rawHurs - 12: rawHurs;
-        }
+        time: function () { this.showTime();}
     }
 }
 </script>

@@ -42,7 +42,7 @@ export default {
 		},
 		updateDate() {
 			let date = new Date();
-			let days = date.getDay().toString();
+			let days = date.getDate().toString();
 			if (days.length == 1) days = "0" + (days - 1);
 			this.days = days;
 
