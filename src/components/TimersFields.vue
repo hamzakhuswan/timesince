@@ -1,6 +1,6 @@
 <template>
     <div class="fields">
-        <input type="time" @input="computeTimeInput">
+        <input type="time" step="1" @input="computeTimeInput">
 
         <div class="timers">
             <button class="timer" v-for="timer in timers" :key="timer.id" @click="computePreviousTimers(timer.date)">{{timer.message}}</button>
@@ -26,6 +26,7 @@ export default {
 
             this.time.hurs = date.getHours();
             this.time.mens = date.getMinutes();
+            this.time.secs = date.getSeconds();
             this.showTime();
 
             this.date.days = date.getDate();
@@ -37,6 +38,7 @@ export default {
             const time = e.currentTarget.value.split(":");
             this.time.hurs = parseInt(time[0]);
             this.time.mens = parseInt(time[1]);
+            this.time.secs = parseInt(time[2]);
 
             this.showTime();
         },

@@ -29,7 +29,7 @@ export default {
             if (Object.keys(this.time).length != 0) {
                 this.hurs = this.time.hurs;
                 this.mens = this.time.mens;
-                this.secs = new Date().getSeconds();
+                this.secs = this.time.secs;
 
                 clearInterval(interval);
             }
