@@ -1,17 +1,26 @@
 <template>
-    <div class="fields">
-        <input type="text" v-model="message">
+    <div class="timerInputs">
 
-        <div class="time">
-            <input type="number" min="0" max="24" autocomplete="off" v-model.number="hurs" placeholder="HH">
-            <input type="number" min="0" max="60" autocomplete="off" v-model.number="mens" placeholder="MM">
-            <input type="number" min="0" max="60" autocomplete="off" v-model.number="secs" placeholder="SS">
-        </div>        
-        <div class="timers">
-            <button class="timer" v-for="timer in timers" :key="timer.id" @click="passOld(timer.date)">{{timer.message}}</button>
-            <button class="timer">Add New</button>
+        <div class="fields">
+            <input type="text" class="input message" v-model="message" placeholder="Timer name">
+
+            <div class="time">
+                <input type="number" class="input nums" min="0" max="24" autocomplete="off" v-model.number="hurs" placeholder="HH">
+                <input type="number" class="input nums" min="0" max="60" autocomplete="off" v-model.number="mens" placeholder="MM">
+                <input type="number" class="input nums" min="0" max="60" autocomplete="off" v-model.number="secs" placeholder="SS">
+            </div>   
         </div>
-        <button class="conform" @click="adding">ADD</button>
+
+        <div class="btns">
+            <div class="timers" :class="{close: closed}" @click="closed = !closed">
+                <div class="arrow bottom"></div>
+
+                <button class="timer new">New</button>
+                <button class="timer" v-for="timer in timers" :key="timer.id" @click="passDate(timer.date); message = timer.message">{{timer.message}}</button>
+            </div>
+
+            <button class="conform" @click="adding">ADD</button>
+        </div>
     </div>
 </template>
 
@@ -25,6 +34,7 @@ export default {
             hurs: "",
             mens: "",
             secs: "",
+            closed: true
         };
     },
     watch: {
@@ -42,14 +52,12 @@ export default {
         }
     },
     methods: {
-        passOld(dateString) {
+        passDate(dateString) {
             const d = new Date(dateString);
 
-            const time = {};
-            time.hurs = d.getHours();
-            time.mens = d.getMinutes();
-            time.secs = d.getSeconds();
-            this.$emit("showTime", time);
+            this.hurs = d.getHours();
+            this.mens = d.getMinutes();
+            this.secs = d.getSeconds();
     
             const date = {};
             date.days = d.getDate();
@@ -77,42 +85,94 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    // .fields{
-    //     width: 100%;
-    //     height: 60px;
+    .timerInputs {
+        width: 100%;
+    }
 
-    //     display: flex;
-    //     justify-content: space-between;
-    //     .timers {
-    //         width: 50%;
-    //         height: inherit;
 
-    //         overflow: auto;
-    //         scroll-snap-type: y mandatory;
+    .fields {
+        margin: 25px 0;
+        .input {
+            background: #7f7f7f;
+            color: #fff;
+            border: none;
+            outline: none;
+            padding: 10px 40px;
+            height: 50px;
+        }
+        .message {
+            font-size: 24px;
+        }
+        .time {
+            display: flex;
+            justify-content: center;
+            .nums {
+                font-size: 16px;
+            }
+        }
+    }
 
-    //     }
-    //     .timer, .conform { 
-    //         display: block;
-    //         height: inherit;
-    //         border: none;
+    
+    .btns {
+        width: 100%;
+        height: 60px;
 
-    //         cursor: pointer;
-    //         color: #fff;
-    //         font-size: 24px;
+        display: flex;
+        justify-content: space-between;
 
-    //         &:focus {
-    //             outline: none;
-    //         }
-    //     }
+        .timers {
+            width: 50%;
+            height: 300px;
+            max-height: 300px;
+            overflow: auto;
 
-    //     .timer {
-    //         scroll-snap-align: start;
-    //         background: #9f9f9f;
-    //         width: 100%;
-    //     }
-    //     .conform {
-    //         background: #7FCC7F;
-    //         width: 50%;
-    //     }
-    // }
+            transition: all .6s ease;
+
+            position: relative;
+            scroll-snap-type: y mandatory;
+            
+
+            .timer {
+                height: 50px;
+                width: 100%;
+                display: block;
+
+                font-size: 24px;
+                background: #9f9f9f;
+                color: #fff; 
+                border: none;   
+                
+                scroll-snap-align: start;
+                cursor: pointer;
+                
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .arrow {
+                position: absolute;
+                top: 21px;
+                right: 10px;                
+            }
+
+            &.close {
+                overflow: hidden;
+                max-height: 50px;
+            }
+
+        }
+        .conform {
+            width: 50%;
+            height: 50px;
+
+            font-size: 24px;
+            background: #7FCC7F;
+            color: #fff; 
+            border: none;  
+        }
+    }
+
+  
 </style>

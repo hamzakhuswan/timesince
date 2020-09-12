@@ -134,10 +134,6 @@ export default {
                 color: #fff;
                 text-align: center;
             }
-            ::placeholder {
-                color: white;
-                opacity: 0.7;
-            }
             input:focus {
                 outline: none;
             }
@@ -171,32 +167,8 @@ export default {
             &:active {
                 outline: none;
             }
-            .arrow {
-                border: solid #fff;
-                border-width: 0 5px 5px 0;
-                display: inline-block;
-                padding: 5px;
-            }
-            .left {
-                transform: rotate(135deg);
-            }
-            .right {
-                transform: rotate(-45deg);
-            }
         }
     }    
-
-    /* Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    }
-
-    /* Firefox */
-    input[type=number] {
-    -moz-appearance: textfield;
-    }
 
     .calendar {
         min-height: 300px;

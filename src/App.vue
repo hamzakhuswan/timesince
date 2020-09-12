@@ -55,4 +55,33 @@ body {
 	z-index: 4;
 	padding: 5px;
 }
+
+.arrow {
+	border: solid #fff;
+	border-width: 0 5px 5px 0;
+	display: inline-block;
+	padding: 5px;
+}
+.bottom {
+	transform: rotate(45deg);
+}
+.left {
+	transform: rotate(135deg);
+}
+.right {
+	transform: rotate(-45deg);
+}
+
+::placeholder {
+	color: rgba(255,255,255, 0.7);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+input[type=number] {
+	-moz-appearance: textfield;
+}
 </style>
