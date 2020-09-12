@@ -18,9 +18,11 @@ export default {
             curTime: new Date()
 		};
     },
-    beforeMount() {
+    mounted() {
 		this.timers = JSON.parse(localStorage.getItem("timers"));
-		
+		this.$root.$on('updating', data => {
+			this.timers = JSON.parse(localStorage.getItem("timers"));
+		});
         setInterval(()=> {
             this.curTime = new Date();
         }, 1000);

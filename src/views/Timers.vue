@@ -4,7 +4,7 @@
         <DatePicker :date="oldDate" @passDate="passDate"/>
         <div class="input">
           <CircularCLock :time="time" />
-          <TimersFields :timers="timers" @adding="adding" @showDate="passOldDate" @showTime="passTime"/>
+          <TimersFields :timers="timers" @changeFocus="changeFocus" @deleting="deleting" @adding="adding" @showDate="passOldDate" @showTime="passTime"/>
         </div>
     </Settings>
   </div>
@@ -19,10 +19,11 @@ export default {
   name: "Timers",
   data() {
     return {
+      focus: "",
       timers: JSON.parse(localStorage.getItem("timers")),
       oldDate: {},
       date: {},
-      time: {}
+      time: {},
     }
   },
   components: {
@@ -56,7 +57,22 @@ export default {
           
       localStorage.setItem("timers", JSON.stringify(this.timers));
       
-    }
+
+      // Root event to update the timers in main page
+      this.$root.$emit('updating');
+    },
+    deleting () {
+      if (this.timers.length < this.focus) return console.log("false value")
+      else {
+        this.timers = this.timers.filter(timer => timer !== this.timers[this.focus]);
+        localStorage.setItem("timers", JSON.stringify(this.timers));
+        this.$root.$emit('updating');
+
+      }
+    },
+    changeFocus(f) {
+      this.focus = f;
+    },
   }
 }
 </script>

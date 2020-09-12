@@ -6,7 +6,7 @@
 			<Timers style="margin-top: 50px" />
 			<SettingsIcon style="position: absolute; bottom: 40px; right: 20px;"/>
 		</div>
-		<router-view />
+		<router-view/>
 	</div>
 </template>
 
@@ -54,6 +54,10 @@ body {
 	position: relative;
 	z-index: 4;
 	padding: 5px;
+
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 }
 
 .arrow {
