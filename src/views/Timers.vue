@@ -1,10 +1,10 @@
 <template>
   <div class="timers-settings">
     <Settings myClass="content">
-        <DatePicker :date="date" :timers="timers"/>
+        <DatePicker :date="oldDate" @passDate="passDate"/>
         <div class="input">
           <CircularCLock :time="time" />
-          <TimersFields :timers="timers" @showDate="passDate" @showTiming="passTime"/>
+          <TimersFields :timers="timers" @adding="adding" @showDate="passOldDate" @showTime="passTime"/>
         </div>
     </Settings>
   </div>
@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       timers: JSON.parse(localStorage.getItem("timers")),
+      oldDate: {},
       date: {},
       time: {}
     }
@@ -32,16 +33,29 @@ export default {
   },
   methods: {
     passTime(time) {
-        // Creating new reactive instance. Explination:
-        // https://vuejs.org/v2/guide/reactivity.html#For-Objects
-        this.time = Object.assign({}, this.time, time);
+      // Creating new reactive instance. Explination:
+      // https://vuejs.org/v2/guide/reactivity.html#For-Objects
+      this.time = Object.assign({}, this.time, time);
     },
+    // To prevously defined date
+    passOldDate(date) {
+      this.oldDate = Object.assign({}, this.oldDate, date);
+    },
+    // This one is for new picked date from the date picker
     passDate(date) {
       this.date = Object.assign({}, this.date, date);
     },
-    addTimer(t) {
-      const time = t.split(":");
-      this.time = {hurs: time[0], mens: time[1]};
+    adding(message) {
+      if (Object.keys(this.date).length == 0 || Object.keys(this.time).length == 0) return console.log("Invalid time");
+      const date = new Date(this.date.year, this.date.mnth - 1, this.date.days, this.time.hurs, this.time.mens, this.time.secs);
+
+      const newDate = {message, date};
+
+      if (!Array.isArray(this.timers))  this.timers = [newDate];
+      else this.timers.push(newDate);
+          
+      localStorage.setItem("timers", JSON.stringify(this.timers));
+      
     }
   }
 }

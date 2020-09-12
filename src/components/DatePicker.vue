@@ -2,16 +2,16 @@
     <div class="date-picker">
         <div>
             <div class="navigation">
-                <div class="btn" @click="mnth--"><div class="arrow left"></div></div>
+                <div class="btn" @click="prev"><div class="arrow left"></div></div>
                 <div class="date">
-                    <input type="text" autocomplete="off" @input="checkDays" :value="days" id="days" placeholder="DD">
-                    <input type="text" autocomplete="off" @input="checkMnth" :value="mnth" id="mnth" placeholder="MM">
-                    <input type="text" autocomplete="off" @input="checkYear" :value="year" id="year" placeholder="YYYY">
+                    <input type="number" min="0" :max="totDays" autocomplete="off" v-model.number="days" id="days" placeholder="DD">
+                    <input type="number" min="0" max="12" autocomplete="off" v-model.number="mnth" id="mnth" placeholder="MM">
+                    <input type="number" min="0" max="9999" autocomplete="off" v-model.number="year" id="year" placeholder="YYYY">
                 </div>
-                <div class="btn" @click="mnth++"><div class="arrow right"></div></div>
+                <div class="btn" @click="next"><div class="arrow right"></div></div>
             </div>
         </div>
-        <div class="calendar">
+        <div class="calendar" v-if="totDays">
             <div class="day" :class="{active: days == i}" v-for="i in totDays" :key="i" @click="days = i">{{i}}</div>
         </div>
     </div>
@@ -21,16 +21,12 @@
 export default {
     name: "DatePicker",
     props: ["date"],
-
-    // TODO use computed method
     data() {
         return {
-            // Date and time
-            year: 0,
-            mnth: 0,
-            days: 0,
-            totDays: 0,
-            computedDays: this.days > 31? 31 : this.days >= 0 ? 1 : this.days
+            year: "",
+            mnth: "",
+            days: "",
+            totDays: 0
         };
     },
     beforeMount() {
@@ -41,54 +37,61 @@ export default {
             this.year = date.getFullYear();
             this.mnth = date.getMonth() + 1;
             this.days = date.getDate();
-            this.totDays = new Date(this.year, this.mnth, 0).getDate()  
-        },
-        checkDays(e) {
-            const value = e.currentTarget.value;
-            if ((parseInt(value) > 0 && parseInt(value) <= this.totDays) || value == "") {
-                this.days = parseInt(value);
-            } else {
-                 e.currentTarget.value = this.days;
-            }
-
-            this.totDays = new Date(this.year, this.mnth, 0).getDate();
-
-        },
-        checkMnth(e) {
-            const value = e.currentTarget.value;
-            if ((parseInt(value) > 0 && parseInt(value) <= 12) || value == "") {
-                this.mnth = parseInt(value);
-            } else {
-                 e.currentTarget.value = this.mnth;
-            }
-
             this.totDays = new Date(this.year, this.mnth, 0).getDate();
         },
-        checkYear(e) {
-            const value = e.currentTarget.value;
-            if ((parseInt(value) > 0 && parseInt(value) < 9999) || value == "") {
-                this.year = parseInt(value);
-            } else {
-                 e.currentTarget.value = this.year;
-            }
+        passData(){
+            if (!this.year && !this.mnth && !this.days) return
 
-            this.totDays = new Date(this.year, this.mnth, 0).getDate()  
-
+            this.$emit("passDate", {
+                year: this.year,
+                mnth: this.mnth,
+                days: this.days
+            });
         },
-    },
-    watch: {
-        date() {
-            this.update(new Date(this.date.year, this.date.mnth - 1, this.date.days))
-        },
-        mnth() {
-            if (this.mnth < 1) {
+        prev() {
+            if(this.mnth == "") return;
+            else if(this.mnth <= 0) {
                 this.mnth = 12;
                 this.year--;
+            } else {
+                this.mnth--;
+            }
+        },
+        next() {
+            if(this.mnth == "") return;
+            else if (this.mnth >= 12) {
+                this.mnth = 1;
+                this.year++;
+            } else {
+                this.mnth++;
+            }
+        }
+    },
+    watch: {
+        year(val, oldVal) {
+            this.year = this.year <= 9999 && this.year >= 0 ? this.year : oldVal;
+            this.passData();
+        },
+        mnth(oldVal)  {
+            return this.mnth = this.mnth < 12 && this.mnth > 0 ? this.mnth : oldVal;
+
+            if (this.mnth == "") {
+                this.mnth = "";
+            } else if (this.mnth < 1) {
+                
             } else if (this.mnth > 12) {
                 this.mnth = 1;
                 this.year++;   
-            }
+            }       
 
+            this.passData();
+        },
+        days(val, oldVal) {
+            this.days = this.days <= this.totDays && this.days >= 0 ? this.days : oldVal;
+            this.passData();
+        },
+        date() {
+            this.update(new Date(this.date.year, this.date.mnth - 1, this.date.days))
         }
     }
 
@@ -100,7 +103,8 @@ export default {
     overflow: hidden;
 
     display: inline-block;
-    min-width: 300px;
+    width: 100%;
+    max-width: 400px;
 
     background: #7f7f7f;
     color: #fff;
@@ -182,14 +186,26 @@ export default {
         }
     }    
 
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+
     .calendar {
         min-height: 300px;
     
         display: grid;
-        grid-template-columns: repeat(7, calc(400px / 7));
+        grid-template-columns: repeat(7, calc(100% / 7));
 
         .day {
-            width: calc(400px / 7);
+            width: 100%;
             height: calc(400px / 7);
             line-height: calc(400px / 7);
             text-align: center;

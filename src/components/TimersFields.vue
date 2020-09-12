@@ -1,12 +1,17 @@
 <template>
     <div class="fields">
-        <input type="time" step="1" @input="computeTimeInput">
+        <input type="text" v-model="message">
 
+        <div class="time">
+            <input type="number" min="0" max="24" autocomplete="off" v-model.number="hurs" placeholder="HH">
+            <input type="number" min="0" max="60" autocomplete="off" v-model.number="mens" placeholder="MM">
+            <input type="number" min="0" max="60" autocomplete="off" v-model.number="secs" placeholder="SS">
+        </div>        
         <div class="timers">
-            <button class="timer" v-for="timer in timers" :key="timer.id" @click="computePreviousTimers(timer.date)">{{timer.message}}</button>
+            <button class="timer" v-for="timer in timers" :key="timer.id" @click="passOld(timer.date)">{{timer.message}}</button>
             <button class="timer">Add New</button>
         </div>
-        <button class="conform" @click="addTimer()">ADD</button>
+        <button class="conform" @click="adding">ADD</button>
     </div>
 </template>
 
@@ -16,42 +21,56 @@ export default {
     props: ["timers"],
     data() {
         return {
-            time: {},
-            date: {},
+            message: "",
+            hurs: "",
+            mens: "",
+            secs: "",
         };
     },
+    watch: {
+        hurs: function (val, oldVal) {
+            this.hurs = this.hurs <= 24 && this.hurs >= 0 ? this.hurs : oldVal;
+            this.passTime();
+        },
+        mens: function (val, oldVal) {
+            this.mens = this.mens <= 60 && this.mens >= 0 ? this.mens : oldVal;
+            this.passTime();
+        },
+        secs: function (val, oldVal) {
+            this.secs = this.secs <= 60 && this.secs >= 0 ? this.secs : oldVal;
+            this.passTime();
+        }
+    },
     methods: {
-        computePreviousTimers(d) {
-            const date = new Date(d);
+        passOld(dateString) {
+            const d = new Date(dateString);
 
-            this.time.hurs = date.getHours();
-            this.time.mens = date.getMinutes();
-            this.time.secs = date.getSeconds();
-            this.showTime();
+            const time = {};
+            time.hurs = d.getHours();
+            time.mens = d.getMinutes();
+            time.secs = d.getSeconds();
+            this.$emit("showTime", time);
+    
+            const date = {};
+            date.days = d.getDate();
+            date.mnth = d.getMonth() + 1;
+            date.year = d.getFullYear();
+            this.$emit("showDate", date);
+        },
+        passTime(e) {
+            if(!this.hurs && !this.mens && !this.secs) return console.log("Fail");
 
-            this.date.days = date.getDate();
-            this.date.mnth = date.getMonth() + 1;
-            this.date.year = date.getFullYear();
-            this.showDate();
-        },
-        computeTimeInput(e) {
-            const time = e.currentTarget.value.split(":");
-            this.time.hurs = parseInt(time[0]);
-            this.time.mens = parseInt(time[1]);
-            this.time.secs = parseInt(time[2]);
+            const time = {};
+            time.hurs = this.hurs;
+            time.mens = this.mens;
+            time.secs = this.secs;
 
-            this.showTime();
+            this.$emit("showTime", time);
         },
-        showTime() {
-            this.$emit("showTiming", this.time);
-        },
-        showDate() {
-            this.$emit("showDate", this.date);
-        },
-        // addTimer() {
-        //     console.log(this.time);
-        //     this.$emit("addTimer", this.time);
-        // }
+        adding() {
+            if(this.message == "") return console.log("Empty message");
+            this.$emit("adding", this.message);
+        }
     }
 }
 </script>
