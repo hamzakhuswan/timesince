@@ -58,12 +58,13 @@ export default {
             this.$emit("showDate", date);
         },
         passTime(e) {
-            if(!this.hurs && !this.mens && !this.secs) return console.log("Fail");
-
             const time = {};
-            time.hurs = this.hurs;
-            time.mens = this.mens;
-            time.secs = this.secs;
+
+            // If one of the is nut a valid number or empty string,
+            // replace it with 0
+            time.hurs = !this.hurs ? 0 : this.hurs;
+            time.mens = !this.mens ? 0 : this.mens;
+            time.secs = !this.secs ? 0 : this.secs;
 
             this.$emit("showTime", time);
         },

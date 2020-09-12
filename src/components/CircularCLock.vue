@@ -1,6 +1,6 @@
 <template>
     <div class="clock">
-        <div class="arw hurs-arw" :style="{transform: `translateX(-50%) rotate(calc(${hurs}/12 * 360deg))`}"></div>
+        <div class="arw hurs-arw" :style="{transform: `translateX(-50%) rotate(${hurs/12 * 360}deg)`}"></div>
         <div class="arw mens-arw" :style="{transform: `translateX(-50%) rotate(calc(${mens}/60 * 360deg))`}"></div>
         <div class="arw secs-arw" :style="{transform: `translateX(-50%) rotate(calc(${secs}/60 * 360deg))`}"></div>
         <div class="mdle"></div>
@@ -14,8 +14,7 @@ export default {
     props: {
         time: {
             type: Object
-        },
-        
+        }
     },
     data() {
         return {
@@ -27,19 +26,19 @@ export default {
     methods: {
         showTime() {
             if (Object.keys(this.time).length != 0) {
-                this.hurs = this.time.hurs;
+                const rawHurs = this.time.hurs;
+                this.hurs = rawHurs > 12 ? rawHurs - 12: rawHurs;
                 this.mens = this.time.mens;
                 this.secs = this.time.secs;
-
                 clearInterval(interval);
             }
             else {
                 const date = new Date();
 
-                this.secs = date.getSeconds();
-                this.mens = date.getMinutes();
                 const rawHurs = date.getHours();
                 this.hurs = rawHurs > 12 ? rawHurs - 12: rawHurs;
+                this.mens = date.getMinutes();
+                this.secs = date.getSeconds();
             }
         }
     },
