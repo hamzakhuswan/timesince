@@ -150,18 +150,21 @@ export default {
 
 <style lang="scss" scoped>
     .timerInputs {
-        width: 100%;
+        width: 350px;
+        max-width: 350px;
     }
 
     .fields {
         margin: 25px 0;
         .input {
+            height: 50px;
+            width: 100%;
+
             background: #7f7f7f;
             color: #fff;
             border: none;
             outline: none;
             padding: 10px 40px;
-            height: 50px;
         }
         .message {
             font-size: 24px;
@@ -277,8 +280,5 @@ export default {
                 background: darken($color: #CC7F7F, $amount: 10%);
             }
         }
-    }
-
- 
-  
+    }  
 </style>

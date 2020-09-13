@@ -1,16 +1,22 @@
 <template>
-  <div class="timers-settings">
-    <Settings myClass="content">
-        <!-- TODO make responsive -->
-        <!-- TODO update timers -->
-        <!-- TODO Guides, e.g. when user have no timers show a guide-->
-        <DatePicker :date="oldDate" @passDate="passDate"/>
-        <div class="input">
-          <CircularCLock :time="time" />
-          <TimersFields :timers="timers" @changeFocus="changeFocus" @deleting="deleting" @adding="adding" @showDate="passOldDate" @showTime="passTime"/>
+  <Settings class="content">
+      <!-- TODO Guides, e.g. when user have no timers show a guide-->
+
+      <div class="content">
+
+
+        <p class="insturctions">Specify a date to count from or to, then choose a name and add.</p>
+
+        <div class="settingsContent">
+          <div class="input">
+            <CircularCLock :time="time" />
+            <TimersFields :timers="timers" @changeFocus="changeFocus" @deleting="deleting" @adding="adding" @showDate="passOldDate" @showTime="passTime"/>
+          </div>
+          <DatePicker :date="oldDate" @passDate="passDate"/>
         </div>
-    </Settings>
-  </div>
+
+      </div>
+  </Settings>
 </template>
 
 <script>
@@ -80,17 +86,47 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .content {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.insturctions {
+  font-size: 24px;
+  margin-bottom: 80px;
+}
+
+.settingsContent {
   display: flex;
   justify-content: space-around;
+  flex-direction: row-reverse;
   align-items: center;
 
   .input {
-    width: 400px;
+    max-width: 350px;
+    width: 350px;
     display: flex;
     align-items: center;
     flex-direction: column;
   }
 }
+
+@media (max-width: 1200px) {
+  .content {
+    display: block;
+  }
+  .settingsContent {
+    display: block;
+    > * {
+      margin: 0 auto 50px;
+    }
+  }
+
+}
+ 
 </style>

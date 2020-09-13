@@ -56,11 +56,11 @@ export default {
     .clock {
         position: relative;
 
-        width: 150px;
-        height: 150px;
+        width: 100px;
+        height: 100px;
 
         border-radius: 50%;
-        border: #7f7f7f solid 5px;
+        border: #7f7f7f solid 3px;
     }
     .clock > .arw {
         transform: translateX(-50%);
@@ -69,7 +69,7 @@ export default {
         bottom: 50%;
         left: 50%;
 
-        width: 5px;
+        width: 3px;
         height: 40%;
 
         background: #7f7f7f;
@@ -79,7 +79,7 @@ export default {
         height: 25%;
     }
     .clock > .secs-arw {
-        width: 2.5px;
+        width: 2px;
     }
 
     .mdle {

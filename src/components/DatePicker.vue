@@ -104,7 +104,7 @@ export default {
 
     display: inline-block;
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
 
     background: #7f7f7f;
     color: #fff;
@@ -171,15 +171,15 @@ export default {
     }    
 
     .calendar {
-        min-height: 300px;
+        min-height: 200px;
     
         display: grid;
-        grid-template-columns: repeat(7, calc(100% / 7));
+        grid-template-columns: repeat(7, 1fr);
 
         .day {
             width: 100%;
-            height: calc(400px / 7);
-            line-height: calc(400px / 7);
+            height: 50px;
+            line-height: 50px;
             text-align: center;
             cursor: pointer;
             border-radius: 5px;

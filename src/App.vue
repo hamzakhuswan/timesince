@@ -30,8 +30,8 @@ export default {
 
 <style lang="scss">
 @font-face {
-	font-family: "Manrope", sans-serif;
-	src: url("./assets/fonts/Manrope-Regular.ttf") format("truetype");
+	font-family: "Manrope";
+	src: url("./assets/fonts/Manrope-Regular.ttf");
 }
 
 * {
@@ -39,9 +39,9 @@ export default {
 }
 
 body {
+	font-family: "Manrope";
 	overflow: hidden;
 	margin: 0;
-	font-family: "Manrope", sans-serif;
 	width: 100vw;
 	height: 100vh;
 }
