@@ -13,21 +13,33 @@
 
         <div class="btns">
             <div class="timers" :class="{open: opened}" @click="opened = !opened" v-on-clickaway="away">
-                <button class="timer main">Timers <div class="arrow bottom"></div></button>
+                <button class="timer main">
+                    <span>{{togglar}}</span>
+                    <div class="arrow bottom">
+                </div></button>
                 <button 
                     class="timer" 
+                    :class="{hide: timers.indexOf(timer) == focus}"
                     v-for="timer in timers" 
                     :key="timer.id" 
                     @click="
                     update(timer.date);
                     passDate(timer.date);
-                    message = timer.message;
                     focus = timers.indexOf(timer);
-                    ">{{timer.message}}</button>
+                    "><span>{{timer.message}}</span></button>
+
+                <button class="timer clear" @click="clear">Clear</button>
             </div>
 
-            <button class="conform" @click="adding">ADD</button>
-            <button class="delete" @click="remove()">X</button>
+            <button 
+                class="conform" 
+                @click="(!focus && focus != 0) ?
+                        adding() :
+                        change()"
+                >{{conform}}</button>
+            <button class="delete" @click="remove">
+                <img src="../assets/trash.svg" alt="remove">
+            </button>
         </div>
     </div>
 </template>
@@ -45,7 +57,9 @@ export default {
             mens: "",
             secs: "",
             opened: false,
-            focus: null
+            focus: null,
+            togglar: "Timers",
+            conform: "ADD"
         };
     },
     watch: {
@@ -62,6 +76,12 @@ export default {
             this.passTime();
         },
         focus() {
+            if (!this.focus && this.focus != 0) return
+            console.log(this.timers[this.focus].message);
+
+            this.message = this.timers[this.focus].message;
+            this.togglar = this.timers[this.focus].message;
+            this.conform = "UPDATE"
             this.$emit("changeFocus", this.focus);
         }
     },
@@ -94,26 +114,35 @@ export default {
             this.$emit("showTime", time);
         },
         adding() {
+            console.log("hello");
             if(this.message == "") return console.log("Empty message");
             this.$emit("adding", this.message);
         },
         remove() {
             // Because vuejs treats empty strins as zeros
             if (!this.focus && this.focus != 0) return console.log("Nothing to delete");
-
+            this.$emit("deleting");
+            this.clear();
+        },
+        change() {
+            console.log("hello");
+            if(this.message == "") return console.log("Empty message");
+            this.$emit("changing", this.message);
+            this.clear();
+        },
+        away() {
+            if (this.opened) this.opened = false;
+        },
+        clear() {
             // Detete the focused value
             this.focus = null;
             this.message = "";
+            this.togglar = "Timers";
             this.passDate(new Date());
 
             this.secs = "";
             this.mens = "";
             this.hurs = "";
-
-            this.$emit("deleting");
-        },
-        away() {
-            if (this.opened) this.opened = false;
         }
     }
 }
@@ -122,9 +151,7 @@ export default {
 <style lang="scss" scoped>
     .timerInputs {
         width: 100%;
-        overflow: hidden;
     }
-
 
     .fields {
         margin: 25px 0;
@@ -159,13 +186,12 @@ export default {
 
         .timers {
             width: 50%;
-            height: 300px;
+            height: 150px;
             overflow: hidden;
             max-height: 50px;
 
             transition: all .6s ease;
             scroll-snap-type: y mandatory;
-            
 
             .timer {
                 height: 50px;
@@ -179,8 +205,20 @@ export default {
                 
                 scroll-snap-align: start;
                 cursor: pointer;
-                
 
+                span {
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100px;
+
+                    margin: auto;
+                }
+
+                &.hide {
+                    display: none;
+                }
                 &:focus {
                     outline: none;
                 }
@@ -193,6 +231,10 @@ export default {
                         right: 10px;                
                     }
 
+                }
+
+                &.clear {
+                    background: #AF9F9F;
                 }
             }
 
@@ -226,11 +268,17 @@ export default {
             border: none;  
 
             cursor: pointer;
+
+            img {
+                vertical-align: middle;
+            }
+
             &:hover {
                 background: darken($color: #CC7F7F, $amount: 10%);
             }
         }
     }
 
+ 
   
 </style>
