@@ -122,6 +122,7 @@ export default {
 <style lang="scss" scoped>
     .timerInputs {
         width: 100%;
+        overflow: hidden;
     }
 
 
@@ -143,6 +144,7 @@ export default {
             justify-content: center;
             .nums {
                 font-size: 16px;
+                width: calc(100% / 3);
             }
         }
     }

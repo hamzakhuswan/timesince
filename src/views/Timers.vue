@@ -1,6 +1,9 @@
 <template>
   <div class="timers-settings">
     <Settings myClass="content">
+        <!-- TODO make responsive -->
+        <!-- TODO update timers -->
+        <!-- TODO Guides, e.g. when user have no timers show a guide-->
         <DatePicker :date="oldDate" @passDate="passDate"/>
         <div class="input">
           <CircularCLock :time="time" />
