@@ -5,7 +5,7 @@
             <li @click="show = false"><router-link to="/theme">Theme</router-link></li>
             <li @click="show = false"><router-link to="/preference">Prefernce</router-link></li>
         </ul>
-        <img src="../assets/settings.svg" @click="show = !show">
+        <img src="../../assets/settings.svg" @click="show = !show">
     </div>
 </template>
 

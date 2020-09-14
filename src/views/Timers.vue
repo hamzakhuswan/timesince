@@ -10,7 +10,14 @@
         <div class="settingsContent">
           <div class="input">
             <CircularCLock :time="time" />
-            <TimersFields :timers="timers" @changeFocus="changeFocus" @deleting="deleting" @adding="adding" @showDate="passOldDate" @showTime="passTime"/>
+            <TimersFields 
+              :timers="timers" 
+              @changeFocus="changeFocus" 
+              @deleting="deleting" 
+              @adding="adding" 
+              @changing="changing"
+              @showDate="passOldDate" 
+              @showTime="passTime"/>
           </div>
           <DatePicker :date="oldDate" @passDate="passDate"/>
         </div>
@@ -21,9 +28,9 @@
 
 <script>
 import Settings from "../components/Settings"
-import DatePicker from "../components/DatePicker"
-import CircularCLock from "../components/CircularCLock"
-import TimersFields from "../components/TimersFields"
+import DatePicker from "../components/timers/DatePicker"
+import CircularCLock from "../components/timers/CircularCLock"
+import TimersFields from "../components/timers/TimersFields"
 export default {
   name: "Timers",
   data() {
@@ -72,12 +79,24 @@ export default {
     },
     deleting () {
       if (this.timers.length < this.focus) return console.log("false value")
-      else {
-        this.timers = this.timers.filter(timer => timer !== this.timers[this.focus]);
-        localStorage.setItem("timers", JSON.stringify(this.timers));
-        this.$root.$emit('updating');
+     
+     this.timers = this.timers.filter(timer => timer !== this.timers[this.focus]);
+      localStorage.setItem("timers", JSON.stringify(this.timers));
+      this.$root.$emit('updating');
 
-      }
+    },
+    changing(message) {
+      if (Object.keys(this.date).length == 0 || Object.keys(this.time).length == 0) return console.log("Invalid time");
+      if (this.timers.length < this.focus) return console.log("false value")
+
+      const date = new Date(this.date.year, this.date.mnth - 1, this.date.days, this.time.hurs, this.time.mens, this.time.secs);
+      this.timers[this.focus].date = date;
+
+      this.timers[this.focus].message = message;
+      localStorage.setItem("timers", JSON.stringify(this.timers));
+      this.$root.$emit('updating');
+
+      console.log("hello");
     },
     changeFocus(f) {
       this.focus = f;

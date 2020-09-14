@@ -12,23 +12,27 @@
         </div>
 
         <div class="btns">
-            <div class="timers" :class="{open: opened}" @click="opened = !opened" v-on-clickaway="away">
-                <button class="timer main">
+            <div class="dropedown" v-on-clickaway="away">
+                <button class="timer main" @click="opened = !opened">
                     <span>{{togglar}}</span>
-                    <div class="arrow bottom">
-                </div></button>
-                <button 
-                    class="timer" 
-                    :class="{hide: timers.indexOf(timer) == focus}"
-                    v-for="timer in timers" 
-                    :key="timer.id" 
-                    @click="
-                    update(timer.date);
-                    passDate(timer.date);
-                    focus = timers.indexOf(timer);
-                    "><span>{{timer.message}}</span></button>
+                    <div class="arrow bottom"></div>
+                </button>
 
-                <button class="timer clear" @click="clear">Clear</button>
+                <div class="timers" :class="{open: opened}">
+
+                    <button 
+                        class="timer" 
+                        :class="{hide: timers.indexOf(timer) == focus}"
+                        v-for="timer in timers" 
+                        :key="timer.id" 
+                        @click="
+                        update(timer.date);
+                        passDate(timer.date);
+                        focus = timers.indexOf(timer);
+                        "><span>{{timer.message}}</span></button>
+
+                    <button class="timer clear" @click="clear">Clear</button>
+                </div>
             </div>
 
             <button 
@@ -38,7 +42,7 @@
                         change()"
                 >{{conform}}</button>
             <button class="delete" @click="remove">
-                <img src="../assets/trash.svg" alt="remove">
+                <img src="../../assets/trash.svg" alt="remove">
             </button>
         </div>
     </div>
@@ -77,7 +81,6 @@ export default {
         },
         focus() {
             if (!this.focus && this.focus != 0) return
-            console.log(this.timers[this.focus].message);
 
             this.message = this.timers[this.focus].message;
             this.togglar = this.timers[this.focus].message;
@@ -114,7 +117,6 @@ export default {
             this.$emit("showTime", time);
         },
         adding() {
-            console.log("hello");
             if(this.message == "") return console.log("Empty message");
             this.$emit("adding", this.message);
         },
@@ -125,7 +127,6 @@ export default {
             this.clear();
         },
         change() {
-            console.log("hello");
             if(this.message == "") return console.log("Empty message");
             this.$emit("changing", this.message);
             this.clear();
@@ -152,6 +153,8 @@ export default {
     .timerInputs {
         width: 350px;
         max-width: 350px;
+        position: relative;
+        z-index: 10;
     }
 
     .fields {
@@ -187,65 +190,82 @@ export default {
         display: flex;
         justify-content: space-between;
 
-        .timers {
+        .dropedown {
             width: 50%;
-            height: 150px;
-            overflow: hidden;
-            max-height: 50px;
-
-            transition: all .6s ease;
-            scroll-snap-type: y mandatory;
-
-            .timer {
+            .main {
                 height: 50px;
                 width: 100%;
                 display: block;
 
                 font-size: 24px;
                 background: #9f9f9f;
-                color: #fff; 
+                color:rgba(255,255,255, 0.7);
                 border: none;   
-                
-                scroll-snap-align: start;
-                cursor: pointer;
 
-                span {
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    max-width: 100px;
-
-                    margin: auto;
+                position: relative;
+                .arrow {
+                    position: absolute;
+                    top: 21px;
+                    right: 10px;                
                 }
 
-                &.hide {
-                    display: none;
-                }
                 &:focus {
                     outline: none;
                 }
-                &.main {
-                    position: relative;
-                    color:rgba(255,255,255, 0.7);
-                    .arrow {
-                        position: absolute;
-                        top: 21px;
-                        right: 10px;                
+
+                    
+            }
+
+            .timers {
+                width: 100%;
+                height: 150px;
+                overflow: hidden;
+                max-height: 0;
+
+                transition: all .6s ease;
+                scroll-snap-type: y mandatory;
+
+                &.open {
+                    max-height: 300px;
+                    overflow: auto;
+                }
+                z-index: 10;
+                .timer {
+                    height: 50px;
+                    width: 100%;
+                    display: block;
+
+                    font-size: 24px;
+                    background: #9f9f9f;
+                    color: #fff; 
+                    border: none;   
+                    
+                    scroll-snap-align: start;
+                    cursor: pointer;
+
+                    span {
+                        display: block;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 100px;
+
+                        margin: auto;
                     }
 
+                    &.hide {
+                        display: none;
+                    }
+                    &:focus {
+                        outline: none;
+                    }
+
+                    &.clear {
+                        background: #AF9F9F;
+                    }
                 }
+            }     
 
-                &.clear {
-                    background: #AF9F9F;
-                }
-            }
-
-
-            &.open {
-                max-height: 300px;
-                overflow: auto;
-            }
 
         }
         .conform {

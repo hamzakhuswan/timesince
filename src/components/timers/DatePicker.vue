@@ -100,6 +100,9 @@ export default {
 
 <style lang="scss" scoped>
 .date-picker {
+    position: relative;
+    z-index: 2;
+    
     overflow: hidden;
 
     display: inline-block;

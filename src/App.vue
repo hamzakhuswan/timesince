@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import GradientBackground from "./components/GradientBackground";
-import Clock from "./components/Clock";
-import Timers from "./components/timers/Timers";
-import SettingsIcon from "./components/SettingsIcon"
+import GradientBackground from "./components/main/GradientBackground";
+import Clock from "./components/main/Clock";
+import Timers from "./components/main/Timers";
+import SettingsIcon from "./components/main/SettingsIcon"
 import Settings from "./components/Settings"
 export default {
 	name: "App",
