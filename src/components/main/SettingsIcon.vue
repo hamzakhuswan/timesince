@@ -48,7 +48,14 @@ export default {
         transition:visibility 0.6s ease,opacity 0.6s ease;
         margin: 0;
         li{ 
+            height: 50px;
+            width: 100%;
+
+            line-height: 50px;
+            text-align: center;
+
             list-style: none;
+            user-select: none;
             * {
                 color: #333;
                 stroke-width: 5px;

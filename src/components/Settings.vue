@@ -10,7 +10,7 @@
           <router-link :class="{active: $route.name == 'Preference'}" to="/preference">Prefernce</router-link>
       </div>
       <div  class="settings-content">
-        <slot></slot>
+        <slot class="slot"></slot>
       </div>
     </div>
   </div>
@@ -83,6 +83,7 @@ export default {
       height: 100%;
       text-align: center;
       overflow: auto;
+      position: relative;
     }
   }
 

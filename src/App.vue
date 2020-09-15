@@ -88,4 +88,9 @@ input::-webkit-inner-spin-button {
 input[type=number] {
 	-moz-appearance: textfield;
 }
+
+a { 
+	color: #81ccf0;
+	text-decoration: none;
+}
 </style>
