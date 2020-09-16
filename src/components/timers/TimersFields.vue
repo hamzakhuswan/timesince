@@ -243,16 +243,6 @@ export default {
                     scroll-snap-align: start;
                     cursor: pointer;
 
-                    span {
-                        display: block;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        max-width: 100px;
-
-                        margin: auto;
-                    }
-
                     &.hide {
                         display: none;
                     }
@@ -264,7 +254,19 @@ export default {
                         background: #AF9F9F;
                     }
                 }
-            }     
+            }    
+
+            
+            // Outside because it's included in two element
+            span {
+                display: block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100px;
+
+                margin: auto;
+            } 
 
 
         }
