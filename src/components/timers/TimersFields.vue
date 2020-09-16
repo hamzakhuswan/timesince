@@ -68,15 +68,18 @@ export default {
     },
     watch: {
         hurs: function (val, oldVal) {
-            this.hurs = this.hurs <= 24 && this.hurs >= 0 ? this.hurs : oldVal;
+            this.hurs = this.hurs <= 24 && this.hurs >= 0 ? this.formatDigits(this.hurs, 2): oldVal;
+            this.secs = this.formatDigits(this.secs, 2);
             this.passTime();
         },
         mens: function (val, oldVal) {
             this.mens = this.mens <= 60 && this.mens >= 0 ? this.mens : oldVal;
+            this.mens = this.formatDigits(this.mens, 2);
             this.passTime();
         },
         secs: function (val, oldVal) {
             this.secs = this.secs <= 60 && this.secs >= 0 ? this.secs : oldVal;
+            this.secs = this.formatDigits(this.secs, 2);
             this.passTime();
         },
         focus() {
@@ -138,12 +141,18 @@ export default {
             // Detete the focused value
             this.focus = null;
             this.message = "";
+            this.conform = "ADD";
             this.togglar = "Timers";
             this.passDate(new Date());
 
             this.secs = "";
             this.mens = "";
             this.hurs = "";
+        },
+        formatDigits(n, length) {
+            const len = n.toString().length;
+            if (len >= length || n == 0) return n;
+            return "0".repeat(length - len) + n;
         }
     }
 }

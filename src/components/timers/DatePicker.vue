@@ -65,29 +65,24 @@ export default {
             } else {
                 this.mnth++;
             }
+        },
+        formatDigits(n, length) {
+            const len = n.toString().length;
+            if (len >= length || n == 0) return n;
+            return "0".repeat(length - len) + n;
         }
     },
     watch: {
         year(val, oldVal) {
-            this.year = this.year <= 9999 && this.year >= 0 ? this.year : oldVal;
+            this.year = this.year <= 9999 && this.year >= 0 ? this.formatDigits(this.year, 4) : oldVal;
             this.passData();
         },
         mnth(oldVal)  {
-            return this.mnth = this.mnth < 12 && this.mnth > 0 ? this.mnth : oldVal;
-
-            if (this.mnth == "") {
-                this.mnth = "";
-            } else if (this.mnth < 1) {
-                
-            } else if (this.mnth > 12) {
-                this.mnth = 1;
-                this.year++;   
-            }       
-
+            this.mnth = this.mnth < 12 && this.mnth > 0 ? this.formatDigits(this.mnth, 2): oldVal;
             this.passData();
         },
         days(val, oldVal) {
-            this.days = this.days <= this.totDays && this.days >= 0 ? this.days : oldVal;
+            this.days = this.days <= this.totDays && this.days >= 0 ? this.formatDigits(this.mnth, 2): oldVal;
             this.passData();
         },
         date() {

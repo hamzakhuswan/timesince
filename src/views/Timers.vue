@@ -95,8 +95,6 @@ export default {
       this.timers[this.focus].message = message;
       localStorage.setItem("timers", JSON.stringify(this.timers));
       this.$root.$emit('updating');
-
-      console.log("hello");
     },
     changeFocus(f) {
       this.focus = f;

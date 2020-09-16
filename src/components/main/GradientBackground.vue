@@ -12,14 +12,16 @@
 -->
 <script>
 let colors = [
-  "#E5EAEF",
-  "#D98881",
-  "#EA9992",
-  "#84CBBB",
-  "#84CB88",
-  "#75B3F0",
-  "#97D5F2",
-  "#9B51E0",
+  "#54478C",
+  "#2c699a",
+  "#048ba8",
+  "#0db39e",
+  "#16db93",
+  "#83e377",
+  "#b9e769",
+  "#efea5a",
+  "#f1c453",
+  "#f29e4c",
 ];
 
 export default {
@@ -34,16 +36,17 @@ export default {
   methods: {
     getClr() {
       // Get random color from the list
-      return colors[Math.round(Math.random() * (colors.length - 1))];
+      const index = Math.round(Math.random() * (colors.length - 1));
+      return colors[index];
     },
     getPos() {
       // Get postion (number 0-100)
       return Math.round(Math.random() * 100);
     },
     getGrad() {
+      const shrClr = this.getClr();
       // Contstruct the gradient
-      const bldClr = this.getClr();
-      return `conic-gradient(at ${this.getPos()}% ${this.getPos()}%, ${bldClr}, ${this.getClr()}, ${this.getClr()}, ${this.getClr()}, ${this.getClr()}, ${bldClr})`;
+      return `conic-gradient(at ${this.getPos()}% ${this.getPos()}%, ${shrClr}, ${this.getClr()}, ${this.getClr()}, ${this.getClr()}, ${this.getClr()}, ${shrClr})`;
     },
     swtchGrad() {
       // Change layer 2 color when it is hidden
@@ -71,7 +74,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  filter: blur(15px);
+  filter: blur(50px);
   transition: opacity 2.5s ease;
   z-index: -1;
 }
@@ -84,7 +87,7 @@ export default {
   left: 0;
   right: 0;
   position: absolute;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.35);
   z-index: 1;
 }
 
