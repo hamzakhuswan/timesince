@@ -1,5 +1,5 @@
 <template>
-    <div class="date-picker">
+    <div class="date-picker" :class="{wrong: dateError}">
         <div>
             <div class="navigation">
                 <div class="btn" @click="prev"><div class="arrow left"></div></div>
@@ -20,7 +20,7 @@
 <script>
 export default {
     name: "DatePicker",
-    props: ["date"],
+    props: ["date", "dateError"],
     data() {
         return {
             year: "",
@@ -40,8 +40,6 @@ export default {
             this.totDays = new Date(this.year, this.mnth, 0).getDate();
         },
         passData(){
-            if (!this.year && !this.mnth && !this.days) return
-
             this.$emit("passDate", {
                 year: this.year,
                 mnth: this.mnth,
@@ -78,11 +76,11 @@ export default {
             this.passData();
         },
         mnth(oldVal)  {
-            this.mnth = this.mnth < 12 && this.mnth > 0 ? this.formatDigits(this.mnth, 2): oldVal;
+            this.mnth = this.mnth < 12 && this.mnth >= 0 ? this.formatDigits(this.mnth, 2): oldVal;
             this.passData();
         },
         days(val, oldVal) {
-            this.days = this.days <= this.totDays && this.days >= 0 ? this.formatDigits(this.mnth, 2): oldVal;
+            this.days = this.days <= this.totDays && this.days >= 0 ? this.formatDigits(this.days, 2): oldVal;
             this.passData();
         },
         date() {

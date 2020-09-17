@@ -2,9 +2,9 @@
     <div class="timerInputs">
 
         <div class="fields">
-            <input type="text" class="input message" v-model="message" placeholder="Timer name">
+            <input type="text" class="input message" :class="{wrong: msgError}" v-model="message" placeholder="Timer name">
 
-            <div class="time">
+            <div class="time" :class="{wrong: timeError}">
                 <input type="number" class="input nums" min="0" max="24" autocomplete="off" v-model.number="hurs" placeholder="HH">
                 <input type="number" class="input nums" min="0" max="60" autocomplete="off" v-model.number="mens" placeholder="MM">
                 <input type="number" class="input nums" min="0" max="60" autocomplete="off" v-model.number="secs" placeholder="SS">
@@ -53,7 +53,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 export default {
     mixins: [ clickaway ],
     name: "TimersFields",
-    props: ["timers"],
+    props: ["timers", "timeError", "msgError"],
     data() {
         return {
             message: "",
@@ -120,7 +120,6 @@ export default {
             this.$emit("showTime", time);
         },
         adding() {
-            if(this.message == "") return console.log("Empty message");
             this.$emit("adding", this.message);
         },
         remove() {
@@ -171,6 +170,8 @@ export default {
         .input {
             height: 50px;
             width: 100%;
+
+            text-align: center;
 
             background: #7f7f7f;
             color: #fff;

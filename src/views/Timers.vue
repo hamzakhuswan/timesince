@@ -1,9 +1,7 @@
 <template>
   <Settings class="content">
-      <!-- TODO Guides, e.g. when user have no timers show a guide-->
 
       <div class="content">
-
 
         <p class="insturctions">Specify a date to count from or to, then choose a name and add.</p>
 
@@ -11,6 +9,8 @@
           <div class="input">
             <CircularCLock :time="time" />
             <TimersFields 
+              :msgError="msgError"
+              :timeError="timeError"
               :timers="timers" 
               @changeFocus="changeFocus" 
               @deleting="deleting" 
@@ -19,7 +19,7 @@
               @showDate="passOldDate" 
               @showTime="passTime"/>
           </div>
-          <DatePicker :date="oldDate" @passDate="passDate"/>
+          <DatePicker :dateError="dateError" :date="oldDate" @passDate="passDate"/>
         </div>
 
       </div>
@@ -40,6 +40,9 @@ export default {
       oldDate: {},
       date: {},
       time: {},
+      msgError: false,
+      timeError: false,
+      dateError: false
     }
   },
   components: {
@@ -62,8 +65,18 @@ export default {
     passDate(date) {
       this.date = Object.assign({}, this.date, date);
     },
+    removeErors() {
+      this.timeError = false;
+      this.dateError = false;
+      this.msgError = false;
+    },
     adding(message) {
-      if (Object.keys(this.date).length == 0 || Object.keys(this.time).length == 0) return console.log("Invalid time");
+      this.removeErors();
+      console.log();
+      if(message == '') {console.log("hello"); return this.msgError = true}
+      else if (Object.keys(this.date).length == 0) return this.dateError = true;
+      else if (Object.keys(this.time).length == 0) return this.timeError = true;
+      else if (this.date.year == "" || this.date.mnth == "" || this.date.days == "") return this.dateError = true;
       const date = new Date(this.date.year, this.date.mnth - 1, this.date.days, this.time.hurs, this.time.mens, this.time.secs);
 
       const newDate = {message, date};
@@ -78,7 +91,8 @@ export default {
       this.$root.$emit('updating');
     },
     deleting () {
-      if (this.timers.length < this.focus) return console.log("false value")
+      this.removeErors();
+      if (this.timers.length < this.focus) return console.log("false value");
      
      this.timers = this.timers.filter(timer => timer !== this.timers[this.focus]);
       localStorage.setItem("timers", JSON.stringify(this.timers));
@@ -86,8 +100,12 @@ export default {
 
     },
     changing(message) {
-      if (Object.keys(this.date).length == 0 || Object.keys(this.time).length == 0) return console.log("Invalid time");
-      if (this.timers.length < this.focus) return console.log("false value")
+      this.removeErors();
+      if(message == '') {console.log("hello"); return this.msgError = true}
+      else if (Object.keys(this.date).length == 0) return this.dateError = true;
+      else if (Object.keys(this.time).length == 0) return this.timeError = true;
+      else if (this.date.year == "" || this.date.mnth == "" || this.date.days == "") return this.dateError = true;
+      else if (this.timers.length < this.focus) return console.log("false value")
 
       const date = new Date(this.date.year, this.date.mnth - 1, this.date.days, this.time.hurs, this.time.mens, this.time.secs);
       this.timers[this.focus].date = date;
@@ -99,6 +117,7 @@ export default {
     changeFocus(f) {
       this.focus = f;
     },
+
   }
 }
 </script>

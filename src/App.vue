@@ -93,4 +93,8 @@ a {
 	color: #81ccf0;
 	text-decoration: none;
 }
+
+.wrong {
+	box-shadow:rgba(255, 0, 0, 0.4) 0px 0px 10px 3px;
+}
 </style>
