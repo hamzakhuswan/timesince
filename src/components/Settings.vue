@@ -82,7 +82,6 @@ export default {
       width: 85%;
       height: 100%;
       text-align: center;
-      overflow: auto;
       position: relative;
     }
   }
@@ -109,9 +108,16 @@ export default {
     }
 
     .settings-content {
+      overflow: auto;
       width: 100%;
     }
   }
 
+}
+
+@media (max-height: 700px) {
+  .holder .settings-content {
+    overflow: auto;
+  }
 }
 </style>
